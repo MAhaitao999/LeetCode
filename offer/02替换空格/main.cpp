@@ -16,7 +16,7 @@ class Solution1 {
 			// cout << str << endl;
 			int count = 0;
 			for (int i = 0; i < length; i++) {
-			    if (str[i] == 32) {
+			    if (str[i] == ' ') {
 					count++;
 				}
 			}
