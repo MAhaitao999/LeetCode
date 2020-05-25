@@ -5,59 +5,51 @@
 
 using namespace std;
 
-typedef struct Node {
-    int data;
-    struct Node* next;
-} ListNode;
+struct ListNode {
+    int val;
+    struct ListNode* next;
+	ListNode(int x):
+		val(x), next(NULL) {
+		}
+};
 
 class Solution {
 public:
     vector<int> printListFromTailToHead(ListNode* head) {
-
-        ListNode* cur;
-        cur = head;
-        // cout << "cur is: " << cur->data << endl
-        //      << (cur->next->next->next->next->next == NULL) << endl;
-        stack<int> sta;
-        while (cur->next != NULL) {
-            // cout << "------------" << endl;
-            sta.push(cur->data);
-            cur = cur->next;
-            // cout << (cur->next) << endl;
+        vector<int> result;
+        stack<int> arr;
+        struct ListNode* p = head;
+        while (p != NULL) {
+            arr.push(p->val);
+            p = p->next;
         }
-
-        sta.push(cur->data);
-
-        vector<int> printout;
-
-        while (!sta.empty()) {
-            printout.push_back(sta.top());
-            sta.pop();
+        while (!arr.empty()) {
+            result.push_back(arr.top());
+            arr.pop();
         }
-
-        return printout;
-        
-    }
+        return result;
+    }  
 };
 
 int main(int argc, char* argv[]) {
 
-    ListNode ln1 = {1, NULL};
-    ListNode ln2 = {2, NULL};
-    ListNode ln3 = {3, NULL};
-    ListNode ln4 = {4, NULL};
-    ListNode ln5 = {5, NULL};
+    struct ListNode ln1(1);
+    struct ListNode ln2(2);
+    struct ListNode ln3(3);
+    struct ListNode ln4(4);
+    struct ListNode ln5(5);
 
-    ln4.next = &ln5;
-    ln3.next = &ln4;
-    ln2.next = &ln3;
-    ln1.next = &ln2;
+	ln4.next = &ln5;
+	ln3.next = &ln4;
+	ln2.next = &ln3;
+	ln1.next = &ln2;
 
     Solution sol;
-    vector<int> res = sol.printListFromTailToHead(&ln1);
-    for (auto iter=res.begin(); iter < res.end(); iter++) {
-        cout << *iter << endl;
-    }
+	vector<int> res = sol.printListFromTailToHead(&ln1);
+	for (auto iter = res.begin(); iter < res.end(); iter++) {
+	    cout << *iter << " ";
+	}
+	cout << endl;
 
     return 0;
 }
