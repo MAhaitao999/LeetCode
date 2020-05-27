@@ -28,7 +28,7 @@ public:
         cout << "in stack i" << endl;
         // 递归出口
 		if (pre.empty() || vin.empty()) {
-		    return new TreeNode(0);
+		    return NULL;
 		}
 
 		int pos = 0;
