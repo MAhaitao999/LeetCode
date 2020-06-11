@@ -18,7 +18,8 @@ struct ListNode {
 		}
 };
 
-class Solution {
+// 感觉应该没问题, 但是牛客网没通过.
+class Solution1 {
     public:
         ListNode* Merge(ListNode* pHead1, ListNode* pHead2) {
 		    if (!pHead1) {
@@ -66,6 +67,46 @@ class Solution {
 			return pNewHead;
 		}
 };
+
+// 方法1: 迭代法
+class Solution2 {
+public:
+    ListNode* Merge(ListNode* pHead1, ListNode* pHead2) {
+        ListNode* vhead = new ListNode(-1);
+		ListNode* cur = vhead;
+		while (pHead1 && pHead2) {
+		    if (pHead1->val <= pHead2->val) {
+			    cur->next = pHead1;
+				pHead1 = pHead1->next;
+			}
+			else {
+			    cur->next = pHead2;
+				pHead2 = pHead2->next;
+			}
+			cur = cur->next;
+		}
+		cur->next = pHead1 ? pHead1 : pHead2;
+		return vhead->next;
+	}
+};
+
+// 方法2: 迭代法
+class Solution3 {
+public:
+    ListNode* Merge(ListNode* pHead1, ListNode* pHead2) {
+		if (pHead1 == NULL) return pHead2;
+		if (pHead2 == NULL) return pHead1;
+		if (pHead1->val <= pHead2->val) {
+		    pHead1->next = Merge(pHead1->next, pHead2);
+			return pHead1;
+		}
+		else {
+		    pHead2->next = Merge(pHead1, pHead2->next);
+			return pHead2;
+		}
+	}
+};
+
 int main(int argc, char* argv[]) {
 
     ListNode ln1(1);
@@ -99,8 +140,18 @@ int main(int argc, char* argv[]) {
 	ln11.next = NULL;
 	ln12.next = NULL;
 	
-    Solution sol;
-	ListNode* Head = sol.Merge(p1, p2);
+	/*
+    Solution1 sol1;
+	ListNode* Head = sol1.Merge(p1, p2);
+    */
+
+	/*
+	Solution2 sol2;
+	ListNode* Head = sol2.Merge(p1, p2);
+    */
+
+	Solution3 sol3;
+	ListNode* Head = sol3.Merge(p1, p2);
 
 	while (Head) {
 	    cout << Head->val << " ";
