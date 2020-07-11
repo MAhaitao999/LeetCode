@@ -39,11 +39,49 @@ class Solution {
         }
 };
 
+// 方法2:
+// 假设n=21067, 分别讨论每个数位上为1的个数. 定义三个变量: 
+// cur(当前位上的数字), high(当前位左边), low(当前位右边).
+// 例如cur = 0, high = 21, low=67
+// 分三种情况讨论cur:
+// - 1. cur = 0: 001xx-201xx, xx从00取到99 所以此情况下总共有
+// (high)*100
+// - 2. cur = 1: 01xxx-11xxx, 21000-21067, 所以此情况下总共有
+// high * 1000 + (low + 1)
+// - 3. cur > 1, 比如6: 0001x-2101x, x从0取到9, 所以此情况下总
+// 共有(high+1)*10
+class Solution2 {
+    public:
+        int NumberOf1Between1AndN_Solution(int n) {
+            int count = 0;
+            for(int i = 1; i <=n; i*=10) { // i代表位数, 从个位开始
+                int high = n / (i * 10);
+                int low = n % i;
+                int cur = (n % (i * 10)) / i;
+
+                if (0 == cur) {
+                    count += high * i;
+                }
+
+                else if (1 == cur) {
+                    count += high * i + (low + 1);
+                }
+
+                else {
+                    count += (high + 1) * i;
+                }
+            
+            }
+
+            return count;
+        }
+};
+
 
 int main(int argc, char* argv[]) {
 
-    int k = 13;
-    Solution sol;
+    int k = 21067;
+    Solution2 sol;
     int res = sol.NumberOf1Between1AndN_Solution(k);
     cout << res << endl;
     return 0;
